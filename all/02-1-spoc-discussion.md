@@ -54,7 +54,7 @@
  
 ## 3.4 linux系统调用分析
  1. 通过分析[lab1_ex0](https://github.com/chyyuu/ucore_lab/blob/master/related_info/lab1/lab1-ex0.md)了解Linux应用的系统调用编写和含义。(w2l1)
- 
+ test
 
  ```
   + 采分点：说明了objdump，nm，file的大致用途，说明了系统调用的具体含义
