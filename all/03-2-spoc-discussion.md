@@ -80,7 +80,18 @@ Virtual Address 7268:
     --> pte index:0x13  pte contents:(valid 1, pfn 0x65)
       --> Translates to Physical Address 0xca8 --> Value: 16
 ```
+###(2)第一组虚拟地址转换如下：
+```
+Virtual Address 6c74:
+	--> pde index:0x1b  pde content:0xa0(valid 1, pfn 0x20)
+		-->pte index:0x03  pte content:0xe1(valid 1, pfn 0x61)
+			-->Translates to Physical Address:0xc34 --> Value:0x06
 
+Virtual Address 6b22:
+	--> pde index:0x1a  pde content:0xd2(valid 1, pfn 0x52)
+		-->pte index:0x19  pte content:0xc7(valid 1, pfn 0x47)
+			-->Translates to Physical Address:0x8e2 --> Value:0x1a
+```
 
 
 （3）请基于你对原理课二级页表的理解，并参考Lab2建页表的过程，设计一个应用程序（可基于python, ruby, C, C++，LISP等）可模拟实现(2)题中描述的抽象OS，可正确完成二级页表转换。

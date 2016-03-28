@@ -12,4 +12,5 @@
 
  - 如果不发生特权级的变化，那么中断切换时只需要Error Code, EIP, CS, EFLAGS压入原来的堆栈即可；
  - 如果发生了特权级的变化，此时应用程序在用户态执行，需要切换到内核态的堆栈，那么中断切换时不仅需要将Error Code, EIP, CS, EFLAGS压入内核态的堆栈，还要将用户态堆栈的ESP和SS也压入栈。
+ - 返回的时候，根据是否有特权级的变化，iret弹出EFLAGS和SS/ESP，ret弹出EIP，retf弹出CS和EIP
 
