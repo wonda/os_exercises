@@ -206,7 +206,7 @@ proc_run(struct proc_struct *proc) {
     if (proc != current) {
         bool intr_flag;
         struct proc_struct *prev = current, *next = proc;
-		cprintf("\tproc %d -> proc %d\n", current->pid, proc->pid);
+        cprintf("(name = %s, pid = %d) -> (name = %s, pid = %d)\n", prev->name, prev->pid, next->name, next->pid);
         local_intr_save(intr_flag);
         {
             current = proc;
@@ -430,6 +430,7 @@ do_fork(uint32_t clone_flags, uintptr_t stack, struct trapframe *tf) {
     local_intr_restore(intr_flag);
 
     wakeup_proc(proc);
+    cprintf("(name = %s, pid = %d) -> READY\n", proc->name, proc->pid);
 
     ret = proc->pid;
 fork_out:
@@ -465,7 +466,7 @@ do_exit(int error_code) {
         }
         current->mm = NULL;
     }
-	cprintf("\tproc %d -> do_exit\n", current->pid);
+    cprintf("(name = %s, pid = %d) -> ZOMBIE\n", current->name, current->pid);
     current->state = PROC_ZOMBIE;
     current->exit_code = error_code;
 
@@ -475,6 +476,7 @@ do_exit(int error_code) {
     {
         proc = current->parent;
         if (proc->wait_state == WT_CHILD) {
+            cprintf("(name = %s, pid = %d) -> READY\n", proc->name, proc->pid);
             wakeup_proc(proc);
         }
         while (current->cptr != NULL) {
@@ -728,7 +730,7 @@ repeat:
         }
     }
     if (haskid) {
-		cprintf("\tproc %d -> do_wait\n", current->pid);
+        cprintf("(name = %s, pid = %d) -> SLEEPING\n", current->name, current->pid);
         current->state = PROC_SLEEPING;
         current->wait_state = WT_CHILD;
         schedule();
@@ -746,6 +748,7 @@ found:
     if (code_store != NULL) {
         *code_store = proc->exit_code;
     }
+    cprintf("(name = %s, pid = %d) -> EXIT\n", proc->name, proc->pid);
     local_intr_save(intr_flag);
     {
         unhash_proc(proc);
